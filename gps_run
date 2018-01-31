@@ -1,0 +1,6 @@
+#!/usr/bin/python3
+
+import os
+
+os.system("mknod /tmp/gpsfake_pipe p")
+os.system("sudo /my/tui/ofone/gps3 -f")
