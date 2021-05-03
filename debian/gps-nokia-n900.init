@@ -1,0 +1,6 @@
+#!/sbin/openrc-run
+name="${RC_SVCNAME}"
+command="/usr/sbin/gps-nokia-n900"
+pidfile="/run/${RC_SVCNAME}.pid"
+command_background="yes"
+description="GPS support for the Nokia N900"
