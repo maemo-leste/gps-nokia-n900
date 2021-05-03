@@ -1,0 +1,11 @@
+Source: gps-nokia-n900
+Section: n900
+Priority: optional
+Maintainer: Ivan J. <parazyd@dyne.org>
+Build-Depends: debhelper-compat (= 12)
+Standards-Version: 4.3.0
+
+Package: gps-nokia-n900
+Architecture: armhf
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: GPS support for Nokia N900
