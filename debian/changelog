@@ -1,3 +1,10 @@
+gps-nokia-n900 (0.3) unstable; urgency=medium
+
+  * Revert "Undefine DEBUG"
+  * Try with DEB_BUILD_MAINT_OPTIONS.
+
+ -- Ivan J. <parazyd@dyne.org>  Tue, 04 May 2021 03:46:03 +0200
+
 gps-nokia-n900 (0.2) unstable; urgency=medium
 
   * hack in cppflags.
