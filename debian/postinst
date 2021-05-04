@@ -1,0 +1,5 @@
+#!/bin/sh
+
+#DEBHELPER#
+
+rc-update del gps-nokia-n900 default || true
