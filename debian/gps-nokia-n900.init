@@ -13,6 +13,10 @@ start_pre() {
 	rm -f /tmp/gps_source
 }
 
+start_post() {
+	chown :dialout "$(realpath /tmp/gps_source)"
+}
+
 stop_post() {
 	rm -f /tmp/gps_source
 }
