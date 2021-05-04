@@ -1,3 +1,10 @@
+gps-nokia-n900 (0.2) unstable; urgency=medium
+
+  * hack in cppflags.
+  * Undefine DEBUG
+
+ -- Ivan J. <parazyd@dyne.org>  Tue, 04 May 2021 03:31:08 +0200
+
 gps-nokia-n900 (0.1) unstable; urgency=medium
 
   * Initial Leste packaging.
