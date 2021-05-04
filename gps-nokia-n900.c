@@ -85,7 +85,7 @@ static void myHexDump(const char *buf, size_t buflen, uint8_t indent)
 int cellmoStartGPS(int sck)
 {
 	struct sockaddr_pn sa;
-	bzero(&sa, sizeof(sa));
+	memset(&sa, 0, sizeof(sa));
 	sa.spn_family = AF_PHONET;
 
 	sa.spn_resource = 16;
@@ -105,7 +105,7 @@ int cellmoStartGPS(int sck)
 int cellmoStopGPS(int sck)
 {
 	struct sockaddr_pn sa;
-	bzero(&sa, sizeof(sa));
+	memset(&sa, 0, sizeof(sa));
 	sa.spn_family = AF_PHONET;
 	sa.spn_resource = 84;
 	if (28 !=
@@ -248,7 +248,7 @@ static void handlePhonetPacket(int sck, int pty)
 	char buf[BUFFER_SIZE];
 	ssize_t buflen = recv(sck, buf, sizeof(buf), 0);
 	assert(buflen > 0);
-	debug("Read %d bytes : ", buflen);
+	debug("Read %ld bytes : ", buflen);
 
 	if (buflen < 9)
 		return;
@@ -256,11 +256,11 @@ static void handlePhonetPacket(int sck, int pty)
 	debug("Total %d subpackets\n", spcount);
 
 	uint8_t validData = 0;
-	float lat, lon, alti, epv2, track;
-	uint32_t eph;
-	uint16_t date_year, time_ms, time_accuracy, speed;
-	uint8_t date_month, date_day, time_hour, time_minute, time_second,
-	    satVisible;
+	float lat = 0.0, lon = 0.0, alti = 0.0, epv2 = 0.0, track = 0.0;
+	uint32_t eph = 0;
+	uint16_t date_year = 0, time_ms = 0, time_accuracy = 0, speed = 0;
+	uint8_t date_month = 0, date_day = 0, time_hour = 0;
+	uint8_t time_minute = 0, time_second = 0, satVisible = 0;
 	int8_t usedSats[12] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 	uint8_t splen;
@@ -471,7 +471,7 @@ static void handlePhonetPacket(int sck, int pty)
 				  (validData & 1) ? '3' : '1', GPGSAsats);
 		}
 	}
-	if (validData & 3 == 3) {
+	if ((validData & 3) == 3) {
 		uint8_t latD = abs((int16_t) lat);
 		float latM = (fabs(lat) - (float)latD) * 60;
 		uint8_t lonD = abs((int16_t) lon);
@@ -507,7 +507,7 @@ static void handleFakePacket(int sck, int pty)
 
 	ssize_t buflen = read(sck, buf, sizeof(buf));
 	assert(buflen > 0);
-	debug("Read %d bytes : ", buflen);
+	debug("Read %ld bytes : ", buflen);
 	buf[buflen] = 0;
 
 	float lat, lon;
@@ -536,6 +536,7 @@ static void handleFakePacket(int sck, int pty)
 		return;
 	}
 	if (buf[0] == 'q') {
+		/* XXX: Should this be '=' and not '==' ? */
 		isQuiet == buf[1] - '0';
 		return;
 	}
@@ -551,12 +552,8 @@ static void sigShutdown(int signum)
 
 void parse_opts(int argc, char *argv[])
 {
-	int flags, opt;
-	int nsecs, tfnd;
+	int opt;
 
-	nsecs = 0;
-	tfnd = 0;
-	flags = 0;
 	while ((opt = getopt(argc, argv, "dgf")) != -1) {
 		switch (opt) {
 		case 'd':
@@ -588,7 +585,7 @@ int main(int argc, char *argv[])
 	assert(sck >= 0);
 	{
 		struct sockaddr_pn sa;
-		bzero(&sa, sizeof(sa));
+		memset(&sa, 0, sizeof(sa));
 		sa.spn_family = AF_PHONET;
 		sa.spn_resource = 255;
 		assert(!bind(sck, (struct sockaddr *)&sa, sizeof(sa)));
