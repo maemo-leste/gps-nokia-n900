@@ -4,3 +4,8 @@ command="/usr/sbin/gps-nokia-n900"
 pidfile="/run/${RC_SVCNAME}.pid"
 command_background="yes"
 description="GPS support for the Nokia N900"
+
+start_pre() {
+	/usr/share/ofono/scripts/enable-modem
+	/usr/share/ofono/scripts/online-modem
+}
