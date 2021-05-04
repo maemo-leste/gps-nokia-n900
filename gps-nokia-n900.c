@@ -49,7 +49,6 @@ cat < /tmp/gps_source
 static int sck;
 static char isActive = 0, nopm = 0, nogpsd = 0, do_fake = 0, isQuiet;
 
-#define DEBUG
 #ifdef DEBUG
 #	define debug(...) printf(__VA_ARGS__)
 #else
