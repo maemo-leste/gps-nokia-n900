@@ -2,10 +2,17 @@
 name="${RC_SVCNAME}"
 command="/usr/sbin/gps-nokia-n900"
 pidfile="/run/${RC_SVCNAME}.pid"
+command_args="-g"
 command_background="yes"
 description="GPS support for the Nokia N900"
 
 start_pre() {
+	export GPS_PTY_LINK=/tmp/gps_source
 	/usr/share/ofono/scripts/enable-modem
 	/usr/share/ofono/scripts/online-modem
+	rm -f /tmp/gps_source
+}
+
+stop_post() {
+	rm -f /tmp/gps_source
 }
