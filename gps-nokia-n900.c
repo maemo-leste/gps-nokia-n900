@@ -629,11 +629,11 @@ int main(int argc, char *argv[])
 			if (fake > 0)
 				FD_SET(fake, &rfds);
 			select(maxfd, &rfds, NULL, NULL, NULL);
-			if (FD_ISSET(fake, &rfds))
+			if (fake > 0 && FD_ISSET(fake, &rfds))
 				handleFakePacket(fake, pty);
 			if (FD_ISSET(sck, &rfds))
 				handlePhonetPacket(sck, pty);
-			if (FD_ISSET(pty, &rfds)) {
+			if (!nopm && FD_ISSET(pty, &rfds)) {
 				char buf[BUFFER_SIZE];
 				if (read(pty, buf, sizeof(buf)) < 1)
 					// EOF or error, idle GPS
