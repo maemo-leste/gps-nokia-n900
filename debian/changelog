@@ -1,3 +1,9 @@
+gps-nokia-n900 (0.3.1) unstable; urgency=medium
+
+  * Fix potential segfault (by Sicelo)
+
+ -- Merlijn Wajer <merlijn@wizzup.org>  Mon, 11 Dec 2023 11:21:51 +0100
+
 gps-nokia-n900 (0.3) unstable; urgency=medium
 
   * Revert "Undefine DEBUG"
