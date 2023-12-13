@@ -39,6 +39,7 @@ cat < /tmp/gps_source
 #include <sys/types.h>
 #include <sys/select.h>
 #include <sys/socket.h>
+#include <time.h>
 #include <unistd.h>
 
 #include <fcntl.h>
@@ -325,6 +326,22 @@ static void handlePhonetPacket(int sck, int pty)
 				date_year = (spd[0] << 8) | spd[1];
 				date_month = spd[2];
 				date_day = spd[3];
+				/* Due to the GPS epoch rollover [1] that took place in 2019, the date
+				 * reported by the GPS chip is off by 1024 weeks (7168 days). Add this
+				 * time so we can report a correct date to the system.
+				 *
+				 * [1] https://en.wikipedia.org/wiki/GPS_week_number_rollover
+				 */
+				struct tm cdate = {
+					.tm_year = date_year - 1900,
+					.tm_mon = date_month - 1,
+					.tm_mday = date_day
+				};
+				cdate.tm_mday += 7168;
+				mktime(&cdate);
+				date_year = cdate.tm_year + 1900;
+				date_month = cdate.tm_mon + 1;
+				date_day = cdate.tm_mday;
 				debug("\tDate: %04d-%02d-%02d\n", date_year,
 				      date_month, date_day);
 
