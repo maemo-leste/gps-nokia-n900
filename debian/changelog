@@ -1,3 +1,9 @@
+gps-nokia-n900 (0.3.2) unstable; urgency=medium
+
+  * The N900's GPS chip was not ready for the GPS epoch rollover of 2019, hence it currently reports dates that are off by 1024 weeks. Calculate and report the correct date to the system. (by Sicelo)
+
+ -- Merlijn Wajer <merlijn@wizzup.org>  Wed, 13 Dec 2023 10:07:04 +0100
+
 gps-nokia-n900 (0.3.1) unstable; urgency=medium
 
   * Fix potential segfault (by Sicelo)
